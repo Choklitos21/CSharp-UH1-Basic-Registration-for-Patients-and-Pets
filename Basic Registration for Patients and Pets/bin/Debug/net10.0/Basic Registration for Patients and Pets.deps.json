@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "Basic Registration for Patients and Pets/1.0.0": {
+        "runtime": {
+          "Basic Registration for Patients and Pets.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Basic Registration for Patients and Pets/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

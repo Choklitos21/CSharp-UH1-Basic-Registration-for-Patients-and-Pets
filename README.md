@@ -2,193 +2,187 @@
 
 ## 📋 Project Overview
 
-This project is a basic **console application in C#** designed to manage patients in a clinical system. It covers core C# concepts including object-oriented programming, collection management, control structures, and error handling.
+This project is a **console application in C#** designed to manage patient registration in a clinical system. It demonstrates core C# concepts including object-oriented programming, collection management, control structures, and input validation. The application allows users to register, list, and search for patients through an interactive menu-driven interface.
 
 ---
 
-## 🛠️ 1. Development Environment Setup
-
-Before starting, make sure the following tools are installed:
-
-- **[.NET SDK](https://dotnet.microsoft.com/download)** – Required to build and run C# applications.
-- **Editor** – Choose one of the following:
-  - [Visual Studio](https://visualstudio.microsoft.com/) (full IDE, recommended for beginners)
-  - [Visual Studio Code](https://code.visualstudio.com/) with the **C# extension**
-
-### Verify Installation
-
-After installing the .NET SDK, open a terminal and run:
-
-```bash
-dotnet --version
-```
-
-Create and run a simple test program to confirm everything works:
-
-```bash
-dotnet new console -n HelloWorld
-cd HelloWorld
-dotnet run
-```
-
----
-
-## 📁 2. Project Structure
+## 📁 1. Project Structure
 
 The project is organized to support scalability and separation of concerns:
 
 ```
-ClinicalApp/
+Basic Registration for Patients and Pets/
 ├── Models/
-│   └── Paciente.cs          # Patient data model
+│   └── Patient.cs                    # Patient data model
 ├── Services/
-│   └── PacienteService.cs   # Business logic for patient management
-└── Program.cs               # Application entry point and menu
+│   └── PatientService.cs             # Business logic for patient management
+├── Program.cs                        # Application entry point and menu
+├── Basic Registration for Patients and Pets.csproj  # Project configuration
+└── README.md                         # This file
 ```
 
-- **`Program.cs`** – Entry point of the application; contains the interactive menu.
+- **`Program.cs`** – Entry point of the application; contains the interactive menu loop and command routing.
 - **`Models/`** – Folder containing data model classes.
+  - `Patient.cs` – Defines the Patient class with properties and constructor.
 - **`Services/`** – Folder containing service classes with business logic.
+  - `PatientService.cs` – Encapsulates all patient-related operations.
 
 ---
 
-## 👤 3. The `Paciente` Class
+## 👤 2. The `Patient` Class
 
-The `Paciente` class is defined in `Models/Paciente.cs` and represents a patient with the following properties:
+The `Patient` class is defined in `Models/Patient.cs` and represents a patient with the following properties and constructor:
 
 ```csharp
-public class Paciente
+public class Patient
 {
     public int Id { get; set; }
-    public string Nombre { get; set; }
-    public int Edad { get; set; }
-    public string Sintoma { get; set; }
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public string Symptom { get; set; }
+
+    public Patient(int newId, string newName, int newAge, string newSymptoms)
+    {
+        Id = newId;
+        Name = newName;
+        Age = newAge;
+        Symptom = newSymptoms;
+    }
 }
 ```
 
 | Property  | Type     | Description              |
 |-----------|----------|--------------------------|
-| `Id`      | `int`    | Unique patient identifier |
-| `Nombre`  | `string` | Patient's full name       |
-| `Edad`    | `int`    | Patient's age             |
-| `Sintoma` | `string` | Patient's symptom         |
+| `Id`      | `int`    | Unique patient identifier (auto-incremented) |
+| `Name`    | `string` | Patient's full name      |
+| `Age`     | `int`    | Patient's age            |
+| `Symptom` | `string` | Patient's reported symptom |
 
 ### Example – Creating a Patient Object
 
 ```csharp
-Paciente paciente = new Paciente
-{
-    Id = 1,
-    Nombre = "Juan Pérez",
-    Edad = 35,
-    Sintoma = "Fiebre"
-};
+Patient patient = new Patient(
+    newId: 1,
+    newName: "John Smith",
+    newAge: 35,
+    newSymptoms: "Fever and cough"
+);
 ```
 
 ---
 
-## 🖥️ 4. Interactive Console Menu
+## 🖥️ 3. Interactive Console Menu
 
-The application presents a menu loop using a `while` loop and a `switch-case` to handle user selections:
+The application presents a menu loop using a `while` loop and a `switch-case` statement to handle user selections:
 
 ```csharp
-bool continuar = true;
-while (continuar)
+bool flag = true;
+while (flag)
 {
-    Console.WriteLine("\n--- Menú de Pacientes ---");
-    Console.WriteLine("1. Registrar paciente");
-    Console.WriteLine("2. Listar pacientes");
-    Console.WriteLine("3. Buscar paciente");
-    Console.WriteLine("4. Salir");
-    Console.Write("Seleccione una opción: ");
+    Console.WriteLine("\n--- Patients Menu ---");
+    Console.WriteLine("1. Register a patient");
+    Console.WriteLine("2. List all patients");
+    Console.WriteLine("3. Search a patient");
+    Console.WriteLine("4. Exit");
+    Console.Write("Choose an option: ");
 
-    string opcion = Console.ReadLine();
+    string? option = Console.ReadLine();
 
-    switch (opcion)
+    switch (option)
     {
         case "1":
-            servicio.RegistrarPaciente(pacientes);
+            service.RegisterPatient();
             break;
         case "2":
-            servicio.ListarPacientes(pacientes);
+            service.ListPatients();
             break;
         case "3":
-            servicio.BuscarPaciente(pacientes);
+            service.SearchPatient();
             break;
         case "4":
-            continuar = false;
+            flag = false;
+            Console.WriteLine("Bye bye");
             break;
         default:
-            Console.WriteLine("Opción no válida.");
+            Console.WriteLine("Option no valid");
             break;
     }
 }
 ```
 
----
-
-## ⚙️ 5. The `PacienteService` Class
-
-All core operations are encapsulated in `Services/PacienteService.cs` to promote **separation of concerns**:
-
-```csharp
-public class PacienteService
-{
-    public void RegistrarPaciente(List<Paciente> pacientes)
-    {
-        // Prompts user input and adds a new patient to the list
-    }
-
-    public void ListarPacientes(List<Paciente> pacientes)
-    {
-        // Displays all registered patients
-    }
-
-    public void BuscarPaciente(List<Paciente> pacientes)
-    {
-        // Searches for a patient by name
-    }
-}
-```
-
-| Method               | Description                              |
-|----------------------|------------------------------------------|
-| `RegistrarPaciente`  | Registers a new patient into the list    |
-| `ListarPacientes`    | Lists all currently registered patients  |
-| `BuscarPaciente`     | Searches for a patient by their name     |
+The menu continuously prompts the user until they choose option 4 (Exit).
 
 ---
 
-## 📦 6. Data Storage with `List<Paciente>`
+## ⚙️ 4. The `PatientService` Class
 
-Patient data is stored in memory using a `List<Paciente>`, which is passed between methods to maintain consistency throughout the session:
+All core operations are encapsulated in `Services/PatientService.cs` to promote **separation of concerns**. The service maintains its own internal list of patients and manages a unique ID counter:
 
 ```csharp
-List<Paciente> pacientes = new List<Paciente>();
-PacienteService servicio = new PacienteService();
+public class PatientService
+{
+    private List<Patient> _patients = new List<Patient>();
+    private int _currentId = 0;
+    
+    public void RegisterPatient() { /* ... */ }
+    public void ListPatients() { /* ... */ }
+    public void SearchPatient() { /* ... */ }
+}
 ```
 
-The list is created in `Program.cs` and passed as a parameter to each service method, ensuring all operations work on the same shared data.
+| Method           | Description                              |
+|------------------|------------------------------------------|
+| `RegisterPatient`| Prompts user for patient details and adds a new patient to the list with validation |
+| `ListPatients`   | Displays all registered patients in a formatted way |
+| `SearchPatient`  | Searches for a patient by name (case-insensitive) |
+
+### 4.1 RegisterPatient() Method
+
+This method guides the user through patient registration with input validation:
+
+- **Name**: Required field (non-empty string)
+- **Age**: Must be a valid integer between 0 and 100
+- **Symptoms**: Required field (non-empty string)
+
+Upon successful registration, the patient is added to the list with an auto-incremented ID, and a confirmation message is displayed.
+
+### 4.2 ListPatients() Method
+
+Displays all registered patients in a formatted list. If no patients exist, it displays a message indicating the list is empty.
+
+### 4.3 SearchPatient() Method
+
+Allows users to search for a patient by name. The search is case-insensitive. If found, the patient's details are displayed. If not found, a "Patient not Found" message appears.
 
 ---
 
-## 🔒 7. Error Handling with `try-catch`
+## 📦 5. Data Storage
 
-Basic input validation is implemented using `try-catch` blocks to ensure the application handles invalid data gracefully:
+Patient data is stored in memory using a `List<Patient>`, which is managed by the `PatientService` class. The list is maintained throughout the application's lifetime (while the program is running). The `_currentId` field automatically increments each time a new patient is registered, ensuring unique IDs.
+
+**Note**: Data is not persisted to disk, so all patient records are lost when the application closes.
+
+---
+
+## 🔒 6. Input Validation
+
+The application implements robust input validation to ensure data integrity:
+
+- **Name and Symptoms**: Non-empty string validation using while loops
+- **Age**: Numeric validation using `int.TryParse()` with range checking (0-100)
+
+Example from RegisterPatient:
 
 ```csharp
-try
+int age;
+Console.Write("\nWhat's the patient age?: ");
+while (!int.TryParse(Console.ReadLine(), out age) || age < 0 || age > 100)
 {
-    Console.Write("Ingrese la edad del paciente: ");
-    int edad = int.Parse(Console.ReadLine());
-}
-catch (FormatException)
-{
-    Console.WriteLine("Error: La edad debe ser un número entero válido.");
+    Console.Write("Age must be a number, higher than 0 and less than 100: ");
 }
 ```
 
-This prevents the application from crashing when users enter unexpected or invalid input.
+This prevents the application from crashing when users enter invalid input.
 
 ---
 
@@ -200,19 +194,27 @@ This prevents the application from crashing when users enter unexpected or inval
    cd CSharp-UH1-Basic-Registration-for-Patients-and-Pets
    ```
 
-2. Build and run the application:
+2. Navigate to the project directory:
+   ```bash
+   cd "Basic Registration for Patients and Pets"
+   ```
+
+3. Build and run the application:
    ```bash
    dotnet run
    ```
+
+4. Follow the on-screen menu to register, list, or search for patients.
 
 ---
 
 ## 📚 Key C# Concepts Covered
 
-- Console I/O (`Console.ReadLine`, `Console.WriteLine`)
-- Classes and Properties
-- `List<T>` collections
-- `while` loops and `switch-case` control structures
-- Methods and encapsulation
-- `try-catch` error handling
-- Separation of concerns with service classes
+- **Console I/O**: `Console.ReadLine()`, `Console.WriteLine()`
+- **Classes and Properties**: Using auto-properties and constructors
+- **Collections**: `List<T>` for storing and managing data
+- **Control Structures**: `while` loops and `switch-case` statements
+- **Methods and Encapsulation**: Service class pattern for business logic separation
+- **Input Validation**: `int.TryParse()` and manual string validation
+- **String Operations**: Case-insensitive comparison with `.ToLower()`
+- **Nullable Reference Types**: Using `string?` and the null-coalescing operator `??`
